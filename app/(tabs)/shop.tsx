@@ -1,9 +1,10 @@
+import { Link } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Button, FlatList, Image, StyleSheet, Text, View } from 'react-native';
 
 export default function Shop() {
   const [products, setProducts] = useState([])
-  
+
   useEffect(() => {
     fetch('https://fakestoreapi.com/products')
       .then(res => res.json())
@@ -13,9 +14,9 @@ export default function Shop() {
 
   const renderProductItem = ({ item }) => (
     <View style={styles.productBox}>
-      <Image 
-        source={{ uri: item.image }} 
-        style={styles.productImage} 
+      <Image
+        source={{ uri: item.image }}
+        style={styles.productImage}
       />
       <View style={styles.productInfo}>
         <Text style={styles.productName} numberOfLines={2}>
@@ -25,7 +26,10 @@ export default function Shop() {
         <Text style={styles.productPrice}>${item.price}</Text>
       </View>
       <View style={styles.btn}>
-        <Button title='Details' />
+        <Link href={`/productDetails/${item.id}`}>
+          <Button title='Details' />
+        </Link>
+
       </View>
     </View>
   );
@@ -33,7 +37,7 @@ export default function Shop() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>All Products</Text>
-      
+
       <FlatList
         data={products}
         renderItem={renderProductItem}
@@ -103,6 +107,6 @@ const styles = StyleSheet.create({
     color: '#007AFF'
   },
   btn: {
-    marginTop: 'auto'
+    margin: 'auto'
   }
 });
