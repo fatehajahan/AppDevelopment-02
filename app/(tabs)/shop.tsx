@@ -1,14 +1,18 @@
 import { Link } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Button, FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Button, FlatList, Image, StyleSheet, Text, View } from 'react-native';
 
 export default function Shop() {
   const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     fetch('https://fakestoreapi.com/products')
       .then(res => res.json())
-      .then(json => setProducts(json))
+      .then(json => {
+        setProducts(json)
+        setLoading(false)
+      })
       .catch(error => console.error('Error fetching products:', error))
   }, [])
 
@@ -33,6 +37,15 @@ export default function Shop() {
       </View>
     </View>
   );
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#3E5F44" />
+      </View>
+    )
+  }
+
 
   return (
     <View style={styles.container}>
@@ -108,5 +121,15 @@ const styles = StyleSheet.create({
   },
   btn: {
     margin: 'auto'
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5'
+  },
+  loadingText: {
+    fontSize: 18,
+    color: '#666'
   }
 });

@@ -1,8 +1,9 @@
-import { View, Text } from 'react-native'
+import { View, Text, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useLocalSearchParams } from 'expo-router'
 import { Image } from 'react-native';
 import { StyleSheet } from 'react-native';
+import { Button } from 'react-native';
 
 export default function productDetails() {
     const { id } = useLocalSearchParams();
@@ -21,7 +22,7 @@ export default function productDetails() {
     if (loading) {
         return (
             <View style={styles.loadingContainer}>
-                <Text style={styles.loadingText}>Loading...</Text>
+                <ActivityIndicator size="large" color="#3E5F44" />
             </View>
         )
     }
@@ -46,6 +47,17 @@ export default function productDetails() {
                         ⭐ {product?.rating?.rate} ({product?.rating?.count} reviews)
                     </Text>
                 </View>
+
+                <View className="flex-1 p-4">
+                    <View className="flex-row items-center justify-between mt-4 w-full">
+                        <View className="bg-gray-400 py-[6px] px-3 rounded-md">+</View>
+                        <View className="flex-1 mx-2 rounded-md bg-blue-500 py-[9px] cursor-pointer">
+                            <Text className="text-center text-white font-semibold">Add to Cart</Text>
+                        </View>
+                        <View className="bg-gray-400 py-[6px] px-3 rounded-md">-</View>
+                    </View>
+                </View>
+
             </View>
         </View>
     )
